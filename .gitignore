@@ -348,13 +348,3 @@ MigrationBackup/
 
 # Ionide (cross platform F# VS Code tools) working folder
 .ionide/
-
-CalculadoraG1/Api/Properties/
-
-CalculadoraG1/Api/DTOs/OperationValueList.cs
-
-CalculadoraG1/Api/DTOs/
-
-CalculadoraG1/Api/Controllers/CalculatorController.cs
-
-CalculadoraG1/Api/Api.csproj
