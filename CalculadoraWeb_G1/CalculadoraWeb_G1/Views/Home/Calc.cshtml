@@ -1,0 +1,32 @@
+﻿@model CalculadoraWeb_G1.ViewModels.Home.CalcViewModel;
+
+@using (Html.BeginForm("Calc", "Home", FormMethod.Post))
+{
+    <div>
+        <label id="textLabel">@Model.Result</label>
+        @foreach (List<string> row in Model.Rows)
+        {
+            <div class="row">
+                @foreach (string item in row)
+                {
+                    @if (item != null)
+                    {
+                        <button type="submit" data-value="@item">@item</button>
+                    }
+                }
+            </div>
+        }
+        <input style="visibility:hidden;" id="lastInput" name="lastInput" />
+    </div>
+
+    <script>
+window.addEventListener('load', (event) => {
+
+            document.querySelectorAll('button').forEach(function (item) {
+                item.addEventListener('click', (event) => {
+                    document.querySelector('#textLabel').innerHTML += event.target.dataset.value;
+                    document.querySelector('#lastInput').value = event.target.dataset.value;
+                });
+            });
+        });</script>
+}
