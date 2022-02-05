@@ -16,13 +16,15 @@ namespace Api.Controllers
     {
         public CalculatorController()
         {
-
         }
 
         [HttpGet]
-        public string Default()
+        public ActionResult Default()
         {
-            return "Esta es la API de la calculadora.";
+            WelcomeMessage message = new WelcomeMessage();
+            message.Message = "Esta es la API de la calculadora " + DateTime.Now.ToString();
+            message.Weather = "Sunny";
+            return Ok(message);
         }
 
         [HttpGet]

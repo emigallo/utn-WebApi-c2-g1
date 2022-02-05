@@ -1,4 +1,6 @@
 ﻿using CalculadoraWeb_G1.Models;
+using CalculadoraWeb_G1.Services;
+using CalculadoraWeb_G1.ViewModels.Home;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using System;
@@ -20,18 +22,51 @@ namespace CalculadoraWeb_G1.Controllers
 
         public IActionResult Index()
         {
-            return View();
+            return View("Welcome");
         }
 
-        public IActionResult Privacy()
+        public IActionResult Create(UserModel model)
         {
-            return View();
+            if (ModelState.IsValid)
+            {
+                return RedirectToAction("Calc");
+            }
+
+            ViewBag.Error = "Hay campos sin completar";
+            return View("Welcome", model);
         }
 
-        [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
-        public IActionResult Error()
+        [HttpGet]
+        [Route("Calc")]
+        public IActionResult Calc()
         {
-            return View(new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
+            CalcViewModel model = new CalcViewModel();
+            return View(model);
+        }
+
+        [HttpPost]
+        [Route("Calc")]
+        public IActionResult Calculate(CalcViewModel model, string lastInput)
+        {
+            CalculateModelService service = new CalculateModelService();
+
+            if (lastInput == "=")
+            {
+                model.Result = service.CalculateResult();
+            }
+
+            if (lastInput == "+")
+            {
+
+            }
+
+            int number;
+            if (int.TryParse(lastInput, out number))
+            {
+
+            }
+
+            return View("Calc", model);
         }
     }
 }
