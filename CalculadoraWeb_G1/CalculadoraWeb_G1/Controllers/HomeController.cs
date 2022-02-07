@@ -59,56 +59,83 @@ namespace CalculadoraWeb_G1.Controllers
             return View(model);
         }
 
+
         [HttpPost]
         [Route("Calc")]
         public async Task<IActionResult> Calculate(CalcViewModel model, string lastInput)
         {
             CalculateModelService service = new CalculateModelService();
 
-            if (CalcViewModel.signos == null)
-                CalcViewModel.signos = new List<string>();
-
             if (int.TryParse(lastInput, out int number))
             {
-                if (CalcViewModel.rett == null)
+                if (model.Rett.Operations.Any())
                 {
-                    CalcViewModel.rett = new OperationValueList();
-                    CalcViewModel.rett.Value = number;
+                    model.Rett.Operations.Last().Value = number;
                 }
-                if (CalcViewModel.signos != null)
+                else
                 {
-                    if (CalcViewModel.signos.Count > 0)
-                    {
-                        if (int.TryParse(lastInput, out int number2))
-                        {
-                            CalcViewModel.rett.Operations.Add(new OperationValueKeyPair(number2, CalcViewModel.signos.FirstOrDefault()));
-                            model.Result = await service.CalculateResult(CalcViewModel.rett);                            
-                            ClearValues(model.Result);
-                        }
-                    }
+                    model.Rett.Value = number;
                 }
             }
             else
             {
-                switch (lastInput)
-                {
-                    case "=":
-                        model.Result = await service.CalculateResult(CalcViewModel.rett);
-                        ClearValues(model.Result);
-                        break;
-                    case "+":
-                        CalcViewModel.signos.Add("ADD"); break;                       
-                    case "-":
-                        CalcViewModel.signos.Add("SUB"); break;
-                    case "X":
-                        CalcViewModel.signos.Add("MUL"); break;
-                    default:
-                        throw new Exception("operación inválida.");
-                }
+                model.Rett.Operations.Add(new OperationValueKeyPair(null, "ADD"));
             }
 
             return View("Calc", model);
         }
+
+
+        //[HttpPost]
+        //[Route("Calc")]
+        //public async Task<IActionResult> Calculate(CalcViewModel model, string lastInput)
+        //{
+        //    CalculateModelService service = new CalculateModelService();
+
+        //    if (CalcViewModel.signos == null)
+        //        CalcViewModel.signos = new List<string>();
+
+        //    if (int.TryParse(lastInput, out int number))
+        //    {
+        //        if (CalcViewModel.rett == null)
+        //        {
+        //            CalcViewModel.rett = new OperationValueList();
+        //            CalcViewModel.rett.Value = number;
+        //        }
+        //        if (CalcViewModel.signos != null)
+        //        {
+        //            if (CalcViewModel.signos.Count > 0)
+        //            {
+        //                if (int.TryParse(lastInput, out int number2))
+        //                {
+        //                    CalcViewModel.rett.Operations.Add(new OperationValueKeyPair(number2, CalcViewModel.signos.FirstOrDefault()));
+        //                    model.Result = await service.CalculateResult(CalcViewModel.rett);                            
+        //                    ClearValues(model.Result);
+        //                }
+        //            }
+        //        }
+        //    }
+        //    else
+        //    {
+        //        switch (lastInput)
+        //        {
+        //            case "=":
+        //                model.Result = await service.CalculateResult(CalcViewModel.rett);
+        //                ClearValues(model.Result);
+        //                break;
+        //            case "+":
+        //                CalcViewModel.signos.Add("ADD"); break;                       
+        //            case "-":
+        //                CalcViewModel.signos.Add("SUB"); break;
+        //            case "X":
+        //                CalcViewModel.signos.Add("MUL"); break;
+        //            default:
+        //                throw new Exception("operación inválida.");
+        //        }
+        //    }
+
+        //    return View("Calc", model);
+        //}
 
         private void ClearValues(double value)
         {

@@ -16,11 +16,14 @@ namespace CalculadoraWeb_G1.ViewModels.Home
             this.Rows.Add(new List<string>() { "4", "5", "6", "-" });
             this.Rows.Add(new List<string>() { "1", "2", "3", "+" });
             this.Rows.Add(new List<string>() { "0", null, ",", "=" });
+
+            Rett = new OperationValueList();
         }
 
         public List<List<string>> Rows { get; set; }
-        public double Result { get; set; }        
-        public static List<string> signos;
-        public static OperationValueList rett;
+        public double Result { get; set; }
+        //public static List<string> signos;
+        //public static OperationValueList rett;
+        public OperationValueList Rett { get; set; }
     }
 }
