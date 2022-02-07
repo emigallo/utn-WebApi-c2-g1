@@ -1,11 +1,12 @@
-﻿using System;
+﻿using CalculadoraWeb_G1.Models;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
 namespace CalculadoraWeb_G1.ViewModels.Home
 {
-    public class CalcViewModel
+    public  class CalcViewModel
     {
         public CalcViewModel()
         {
@@ -18,7 +19,8 @@ namespace CalculadoraWeb_G1.ViewModels.Home
         }
 
         public List<List<string>> Rows { get; set; }
-
-        public double Result { get; set; }
+        public double Result { get; set; }        
+        public static List<string> signos;
+        public static OperationValueList rett;
     }
 }

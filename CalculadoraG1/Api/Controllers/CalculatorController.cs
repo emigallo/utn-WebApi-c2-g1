@@ -58,9 +58,11 @@ namespace Api.Controllers
             return $"El resultado de la cuenta es: {result}";
         }
 
-        [HttpGet]
+        //[HttpGet]
+        [HttpPost]
         [Route("history")]
-        public string DoHistory(OperationValueList operations)
+        //public string DoHistory(OperationValueList operations)
+        public ActionResult DoHistory(OperationValueList operations)
         {
             CalculatorWithHistory calc = new CalculatorWithHistory();
             calc.Add(operations.Value);
@@ -73,7 +75,8 @@ namespace Api.Controllers
             }
 
             double result = calc.Do();
-            return string.Format("El resultado de la operación es: {0}", result);
+            //return Ok(string.Format("El resultado de la operación es: {0}", result));
+            return Ok(result.ToString());
         }
 
         [HttpGet]

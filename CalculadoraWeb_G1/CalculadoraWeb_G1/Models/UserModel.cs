@@ -12,8 +12,10 @@ namespace CalculadoraWeb_G1.Models
         {
         }
 
-        [Required]
-        [Display(Name = "Nombre")]
+        public string Title { get; set; }
+
+        [Required(ErrorMessage = "El campo es obligatorio")]
+        [Display(Name = "Nombre de usuario")]
         public string Name { get; set; }
 
         [Required]
