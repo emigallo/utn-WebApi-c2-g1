@@ -1,4 +1,7 @@
-﻿using CalculadoraWeb_G1.Models;
+﻿using CalculadoraWeb_G1.Connections;
+using CalculadoraWeb_G1.Models;
+using CalculadoraWeb_G1.Services;
+using CalculadoraWeb_G1.ViewModels.Home;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using System;
@@ -18,20 +21,127 @@ namespace CalculadoraWeb_G1.Controllers
             _logger = logger;
         }
 
-        public IActionResult Index()
+        public async Task<IActionResult> Index()
         {
-            return View();
+            try
+            {
+                UserModel model = new UserModel();
+                RestConnection rest = new RestConnection("http://localhost:63363");
+
+                WelcomeMessage result = await rest.GetAsync<WelcomeMessage>("calc");
+                model.Title = result.Message;
+
+                return View("Welcome", model);
+            }
+            catch (System.Exception ex)
+            {
+                this._logger.LogError("Error");
+                return BadRequest(ex);
+            }
         }
 
-        public IActionResult Privacy()
+        public IActionResult Create(UserModel model)
         {
-            return View();
+            if (ModelState.IsValid)
+            {
+                return RedirectToAction("Calc");
+            }
+
+            ViewBag.Error = "Hay campos sin completar";
+            return View("Welcome", model);
         }
 
-        [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
-        public IActionResult Error()
+        [HttpGet]
+        [Route("Calc")]
+        public IActionResult Calc()
         {
-            return View(new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
+            CalcViewModel model = new CalcViewModel();
+            return View(model);
+        }
+
+
+        [HttpPost]
+        [Route("Calc")]
+        public async Task<IActionResult> Calculate(CalcViewModel model, string lastInput)
+        {
+            CalculateModelService service = new CalculateModelService();
+
+            if (int.TryParse(lastInput, out int number))
+            {
+                if (model.Rett.Operations.Any())
+                {
+                    model.Rett.Operations.Last().Value = number;
+                }
+                else
+                {
+                    model.Rett.Value = number;
+                }
+            }
+            else
+            {
+                model.Rett.Operations.Add(new OperationValueKeyPair(null, "ADD"));
+            }
+
+            return View("Calc", model);
+        }
+
+
+        //[HttpPost]
+        //[Route("Calc")]
+        //public async Task<IActionResult> Calculate(CalcViewModel model, string lastInput)
+        //{
+        //    CalculateModelService service = new CalculateModelService();
+
+        //    if (CalcViewModel.signos == null)
+        //        CalcViewModel.signos = new List<string>();
+
+        //    if (int.TryParse(lastInput, out int number))
+        //    {
+        //        if (CalcViewModel.rett == null)
+        //        {
+        //            CalcViewModel.rett = new OperationValueList();
+        //            CalcViewModel.rett.Value = number;
+        //        }
+        //        if (CalcViewModel.signos != null)
+        //        {
+        //            if (CalcViewModel.signos.Count > 0)
+        //            {
+        //                if (int.TryParse(lastInput, out int number2))
+        //                {
+        //                    CalcViewModel.rett.Operations.Add(new OperationValueKeyPair(number2, CalcViewModel.signos.FirstOrDefault()));
+        //                    model.Result = await service.CalculateResult(CalcViewModel.rett);                            
+        //                    ClearValues(model.Result);
+        //                }
+        //            }
+        //        }
+        //    }
+        //    else
+        //    {
+        //        switch (lastInput)
+        //        {
+        //            case "=":
+        //                model.Result = await service.CalculateResult(CalcViewModel.rett);
+        //                ClearValues(model.Result);
+        //                break;
+        //            case "+":
+        //                CalcViewModel.signos.Add("ADD"); break;                       
+        //            case "-":
+        //                CalcViewModel.signos.Add("SUB"); break;
+        //            case "X":
+        //                CalcViewModel.signos.Add("MUL"); break;
+        //            default:
+        //                throw new Exception("operación inválida.");
+        //        }
+        //    }
+
+        //    return View("Calc", model);
+        //}
+
+        private void ClearValues(double value)
+        {
+            CalcViewModel.signos.Clear();
+            CalcViewModel.rett.Operations.Clear();
+            CalcViewModel.rett.Value = value;
         }
     }
 }
