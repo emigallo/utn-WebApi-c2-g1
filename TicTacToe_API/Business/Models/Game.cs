@@ -8,20 +8,22 @@ namespace Business.Models
 {
     public class Game
     {
-        private static Board boardGame;
-        private static Player playerGame;
+        private static Board _boardGame;
+        private static Player _currentPlayer;
 
         public Game()
         {
-            boardGame = new Board();
+            _boardGame = new Board();
+            _currentPlayer = _boardGame.Player_1;
         }
-        // Turno del Jugador
+
         public int Turn { get; set; } // revisar nombre de la variable
 
-        public void Jugada(int position, Player player, TypePiece piece)
+        public void Move(int position, Player player)
         {
             // validar si la casilla esta ocupa o no.
             // Si esta libre guardar la posicion
+            var result = SetCellBusy(player, position);
         }
 
         public bool AskCellBusy()
@@ -32,9 +34,7 @@ namespace Business.Models
         public bool IsThereAWinner()
         {
             // Gana la jugada en Diagonal
-
             // Gana la jugada en Vertical
-
             // Gana la jugada en Horizontal
             // Enpate
 
@@ -58,22 +58,21 @@ namespace Business.Models
 
         public Player GetNextPlayer()
         {
-            if (playerGame == boardGame.Player_1)
+            if (_currentPlayer == _boardGame.Player_1)
             {
-                return boardGame.Player_2;
+                return _boardGame.Player_2;
             }
             else
             {
-                return boardGame.Player_1;
+                return _boardGame.Player_1;
             }
         }
 
-        // Marca la celda del tablero como ocupada.
-        public void SetCellBusy(Player player, int numeroCelda, TypePiece ficha)
+        public bool SetCellBusy(Player player, int numberCell)
         {
-            if (boardGame.Positions[numeroCelda] == TypePiece.empty)
+            if (_boardGame.Positions[numberCell] == TypePiece.empty)
             {
-                boardGame.Positions[numeroCelda] = player.TypePlayer;
+                _boardGame.Positions[numberCell] = player.TypePlayer;
 
                 if (IsThereAWinner())
                 {
@@ -81,14 +80,26 @@ namespace Business.Models
                 }
                 else
                 {
-                    player = GetNextPlayer();
+                    _currentPlayer = GetNextPlayer();
+                    return true;
                 }
             }
+            else
+            {
+                // la celda esta ocupada
+                return false;
+            }
+            return true;
         }
 
         public void StartGane()
         {
 
+        }
+
+        public void ResetGame()
+        {
+            _boardGame.FullEmpty();
         }
 
         public void EndGane()

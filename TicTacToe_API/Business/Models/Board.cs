@@ -17,7 +17,7 @@ namespace Business.Models
 
         public Player Player_1 { get; set; }
         public Player Player_2 { get; set; }
-        public TypePiece stateCelda { get; set; }
+        public TypePiece stateCell { get; set; }
         public TypePiece[] Positions { get; init; } 
 
         public void FullEmpty()
