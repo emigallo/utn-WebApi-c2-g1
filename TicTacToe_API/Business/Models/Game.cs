@@ -8,10 +8,15 @@ namespace Business.Models
 {
     public class Game
     {
+        private static Board boardGame;
+        private static Player playerGame;
+
         public Game()
         {
-
+            boardGame = new Board();
         }
+        // Turno del Jugador
+        public int Turn { get; set; } // revisar nombre de la variable
 
         public void Jugada(int position, Player player, TypePiece piece)
         {
@@ -23,11 +28,6 @@ namespace Business.Models
         {
             return true;
         }
-
-        // Turno del Jugador
-        public int Turn { get; set; } // revisar nombre de la variable
-
-
 
         public bool IsThereAWinner()
         {
@@ -56,16 +56,44 @@ namespace Business.Models
             return true;
         }
 
-        // Le toca jugar al jugador...
-        public void GetNextPlayer()
+        public Player GetNextPlayer()
+        {
+            if (playerGame == boardGame.Player_1)
+            {
+                return boardGame.Player_2;
+            }
+            else
+            {
+                return boardGame.Player_1;
+            }
+        }
+
+        // Marca la celda del tablero como ocupada.
+        public void SetCellBusy(Player player, int numeroCelda, TypePiece ficha)
+        {
+            if (boardGame.Positions[numeroCelda] == TypePiece.empty)
+            {
+                boardGame.Positions[numeroCelda] = player.TypePlayer;
+
+                if (IsThereAWinner())
+                {
+                    // hay ganador
+                }
+                else
+                {
+                    player = GetNextPlayer();
+                }
+            }
+        }
+
+        public void StartGane()
         {
 
         }
 
-        // Marca la celda del tablero como ocupada.
-        public void SetCellBusy(int numeroCelda, TypePiece ficha)
+        public void EndGane()
         {
-            Positions[numeroCelda] = ficha;
+
         }
     }
 }
