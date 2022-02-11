@@ -27,6 +27,31 @@ namespace Business.Models
                 Positions[i] = TypePiece.empty;               
             }
         }
-        
+
+        public bool IsThereAWinner()
+        {
+            // Gana la jugada en Diagonal
+            // Gana la jugada en Vertical
+            // Gana la jugada en Horizontal
+            // Enpate
+
+            return true;
+        }
+
+        public bool IsVertical()
+        {
+            return true;
+        }
+
+        public bool IsLHorizontal()
+        {
+            return true;
+        }
+
+        public bool IsLDiagonal()
+        {
+            return true;
+        }
+
     }
 }

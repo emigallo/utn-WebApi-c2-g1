@@ -33,27 +33,59 @@ namespace Business.Models
 
         public bool IsThereAWinner()
         {
-            // Gana la jugada en Diagonal
-            // Gana la jugada en Vertical
-            // Gana la jugada en Horizontal
-            // Enpate
-
-            return true;
+            if (IsVertical() || IsLHorizontal() || IsLDiagonal())
+            {
+                return true;
+            }
+            return false;
         }
 
         public bool IsVertical()
         {
-            return true;
+            if (_boardGame.Positions[0] == _boardGame.Positions[3] && _boardGame.Positions[0] == _boardGame.Positions[6])
+            {
+                return true;
+            }
+            if (_boardGame.Positions[1] == _boardGame.Positions[4] && _boardGame.Positions[1] == _boardGame.Positions[7])
+            {
+                return true;
+            }
+            if (_boardGame.Positions[2] == _boardGame.Positions[5] && _boardGame.Positions[2] == _boardGame.Positions[8])
+            {
+                return true;
+            }
+            return false;
         }
 
         public bool IsLHorizontal()
         {
-            return true;
+            if (_boardGame.Positions[0] == _boardGame.Positions[1] && _boardGame.Positions[0] == _boardGame.Positions[2])
+            {
+                return true;
+            }
+            if (_boardGame.Positions[3] == _boardGame.Positions[4] && _boardGame.Positions[3] == _boardGame.Positions[5])
+            {
+                return true;
+            }
+            if (_boardGame.Positions[6] == _boardGame.Positions[7] && _boardGame.Positions[6] == _boardGame.Positions[8])
+            {
+                return true;
+            }
+            return false;
         }
 
         public bool IsLDiagonal()
         {
-            return true;
+            if (_boardGame.Positions[0] == _boardGame.Positions[4] && _boardGame.Positions[0] == _boardGame.Positions[8])
+            {
+                return true;
+            }
+            if (_boardGame.Positions[2] == _boardGame.Positions[4] && _boardGame.Positions[2] == _boardGame.Positions[6])
+            {
+                return true;
+            }
+            
+            return false;
         }
 
         public Player GetNextPlayer()
