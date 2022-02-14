@@ -8,7 +8,6 @@ namespace Business.Models
 {
     public class Player
     {
-<<<<<<< HEAD
         public Player(TypePiece typePlayer, string name)
         {
             TypePlayer = typePlayer;
@@ -16,13 +15,12 @@ namespace Business.Models
         }
 
         public string Name { get; set; }
-=======
+
         public Player(TypePiece typePlayer)
         {
             TypePlayer = typePlayer;
         }
 
->>>>>>> main
         public TypePiece TypePlayer { get; set; }
 
     }
