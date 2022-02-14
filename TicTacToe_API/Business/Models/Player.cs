@@ -8,6 +8,14 @@ namespace Business.Models
 {
     public class Player
     {
+        public Player(TypePiece typePlayer, string name)
+        {
+            TypePlayer = typePlayer;
+            Name = name;
+        }
+
+        public string Name { get; set; }
+
         public Player(TypePiece typePlayer)
         {
             TypePlayer = typePlayer;

@@ -8,15 +8,57 @@ namespace Business.Models
 {
     public class Game
     {
+
+        private static Board _boardGame;
+        private static Player _currentPlayer;
+
         public Game()
         {
 
         }
 
-        public void Jugada(int position, Player player, TypePiece piece)
+        public Player Player_1 { get; set; }
+        public Player Player_2 { get; set; }
+
+        public int Turn { get; set; } // revisar nombre de la variable
+
+        public void Move(int position, Player player) // PlayTurn
         {
-            // validar si la casilla esta ocupa o no.
-            // Si esta libre guardar la posicion
+            try
+            {
+                _boardGame.VerifiedPosition(position);
+                
+                bool result = _boardGame.SetCellBusy(player, position);
+
+                if (result)
+                {
+                    if (!EndGane())
+                    {
+                        if (!IsThereAWinner())
+                        {
+                            _currentPlayer = GetNextPlayer();
+                        }
+                        else
+                        {
+                            // MOSTRAR MENSAJE DE QUIEN GANO
+                        }
+                    }
+                    else
+                    {
+                        // MOSTRAR EL MENSAJE DE EMPATE
+                    }
+                }
+                else
+                {
+                    // MAL MOVIMIENTO
+                    throw new Exception("Celda ocupada.");
+                }
+            }
+            catch (Exception ex)
+            {
+                throw;
+            }
+            
         }
 
         public bool AskCellBusy()
@@ -24,48 +66,44 @@ namespace Business.Models
             return true;
         }
 
-        // Turno del Jugador
-        public int Turn { get; set; } // revisar nombre de la variable
-
-
-
         public bool IsThereAWinner()
         {
             // Gana la jugada en Diagonal
-
             // Gana la jugada en Vertical
-
             // Gana la jugada en Horizontal
-            // Enpate
 
             return true;
         }
 
-        public bool IsVertical()
+        public Player GetNextPlayer()
         {
-            return true;
+            if (_currentPlayer == Player_1)
+            {
+                return Player_2;
+            }
+            else
+            {
+                return Player_1;
+            }
         }
 
-        public bool IsLHorizontal()
+        public void StartGane()
         {
-            return true;
+            InitGame();
+            _currentPlayer = Player_1;
+
+            Player_1 = new Player(TypePiece.circle, "pepe");
+            Player_2 = new Player(TypePiece.cross, "jose");
         }
 
-        public bool IsLDiagonal()
+        public void InitGame()
         {
-            return true;
+            _boardGame = new Board();
         }
 
-        // Le toca jugar al jugador...
-        public void GetNextPlayer()
+        public bool EndGane()
         {
-
-        }
-
-        // Marca la celda del tablero como ocupada.
-        public void SetCellBusy(int numeroCelda, TypePiece ficha)
-        {
-            Positions[numeroCelda] = ficha;
+            return _boardGame.FullBoard();
         }
     }
 }
