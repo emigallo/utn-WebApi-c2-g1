@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-
+using Business;
 namespace Business.Models
 {
     public class Game
@@ -22,7 +22,7 @@ namespace Business.Models
 
         public int Turn { get; set; } // revisar nombre de la variable
 
-        public void Move(int position, Player player) // PlayTurn
+        public string Move(int position, Player player) // PlayTurn
         {
            
                 _boardGame.ValidatePosition(position); 
@@ -38,15 +38,15 @@ namespace Business.Models
                         }
                         else
                         {
-                            // MOSTRAR MENSAJE DE QUIEN GANO
+                            return _currentPlayer.Name + "Ha ganado el juego";
                         }
                     }
                     else
                     {
-                        // MOSTRAR EL MENSAJE DE EMPATE
+                return "Nadie ha ganado";
                     }
-                    
-            
+
+            return "Mueve" + _currentPlayer.Name;
             
         }
 
@@ -76,12 +76,12 @@ namespace Business.Models
             }
         }
 
-        public void StartGame()
+        public void StartGame(Player play1, Player play2)
         {
             InitGame();
             
-            Player_1 = new Player(TypePiece.circle, "pepe");
-            Player_2 = new Player(TypePiece.cross, "jose");
+            //Player_1 = new Player(TypePiece.circle, "pepe");
+            //Player_2 = new Player(TypePiece.cross, "jose");
 
             _currentPlayer = Player_1;
         }
