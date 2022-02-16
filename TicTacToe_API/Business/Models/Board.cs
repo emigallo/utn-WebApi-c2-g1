@@ -10,45 +10,39 @@ namespace Business.Models
     {
         public Board()
         {
-            FullEmpty();
+            positions = new TypePiece[9];
+            
         }
 
-        public TypePiece stateCell { get; set; }
-        private TypePiece[] Positions { get; init; } 
+        public TypePiece StateCell { get; set; }
+        private TypePiece[] positions { get; set; } 
 
-        public void FullEmpty()
+      
+        public void ValidatePosition(int position) 
         {
-            for (int i = 0; i < 9; i++)
-            {
-                Positions[i] = TypePiece.empty;               
-            }
-        }
-        
-        public void VerifiedPosition(int position) // validar la position no este avcia
-        {
-            if (position >= 0 && position <= 8)
+            if (position < 0 || position > 8)  
             {
                 throw new Exception("Posicion invalida");
             }
 
-        }
-
-        public bool SetCellBusy(Player player, int numberCell) // 
-        {
-            if (Positions[numberCell] != TypePiece.empty)
+            if (positions[position] != TypePiece.empty)
             {
-                return false;
+                throw new Exception("Celda ocupada");
             }
 
-            Positions[numberCell] = player.TypePlayer;
-            return true;
+        }
+
+        public void SetCellBusy(Player player, int numberCell) 
+        {
+            positions[numberCell] = player.TypePlayer;
+            
         }
 
         public bool FullBoard()
         {
             for (int i = 0; i < 9; i++)
             {
-                if (Positions[i] == TypePiece.empty)
+                if (positions[i] == TypePiece.empty)
                 {
                     return false;
                 }

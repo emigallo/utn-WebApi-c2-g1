@@ -24,14 +24,12 @@ namespace Business.Models
 
         public void Move(int position, Player player) // PlayTurn
         {
-            try
-            {
-                _boardGame.VerifiedPosition(position);
+           
+                _boardGame.ValidatePosition(position); 
                 
-                bool result = _boardGame.SetCellBusy(player, position);
+                _boardGame.SetCellBusy(player, position);
 
-                if (result)
-                {
+             
                     if (!EndGane())
                     {
                         if (!IsThereAWinner())
@@ -47,17 +45,8 @@ namespace Business.Models
                     {
                         // MOSTRAR EL MENSAJE DE EMPATE
                     }
-                }
-                else
-                {
-                    // MAL MOVIMIENTO
-                    throw new Exception("Celda ocupada.");
-                }
-            }
-            catch (Exception ex)
-            {
-                throw;
-            }
+                    
+            
             
         }
 
@@ -87,18 +76,20 @@ namespace Business.Models
             }
         }
 
-        public void StartGane()
+        public void StartGame()
         {
             InitGame();
-            _currentPlayer = Player_1;
-
+            
             Player_1 = new Player(TypePiece.circle, "pepe");
             Player_2 = new Player(TypePiece.cross, "jose");
+
+            _currentPlayer = Player_1;
         }
 
         public void InitGame()
         {
             _boardGame = new Board();
+            //_boardGame.FullEmpty();
         }
 
         public bool EndGane()
