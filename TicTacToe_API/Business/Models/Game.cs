@@ -57,11 +57,11 @@ namespace Business.Models
 
         public bool IsThereAWinner()
         {
-            // Gana la jugada en Diagonal
-            // Gana la jugada en Vertical
-            // Gana la jugada en Horizontal
-
-            return true;
+            if ( _boardGame.IsLDiagonal() || _boardGame.IsLHorizontal() || _boardGame.IsVertical())
+            {
+                return true;
+            }
+            return false;
         }
 
         public Player GetNextPlayer()

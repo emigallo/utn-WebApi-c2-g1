@@ -52,17 +52,35 @@ namespace Business.Models
 
         public bool IsVertical()
         {
-            return true;
+            for (int i = 0; i < 3; i++)
+            {
+                if (positions[i] == positions[i + 3] && positions[i + 3] == positions[i + 6]) {
+                    return true;
+                }
+            }
+            return false;
         }
 
         public bool IsLHorizontal()
         {
-            return true;
+            for (int i = 0; i < 3; i++)
+            {
+                if (positions[3*i] == positions[3*i + 1] && positions[3*i + 1] == positions[3*i + 2])
+                {
+                    return true;
+                }
+            }
+            return false;
         }
 
         public bool IsLDiagonal()
         {
-            return true;
+            if (positions[0] == positions[4] && positions[4] == positions[8] || positions[2] == positions[4] && positions[4] == positions[6])
+            {
+                return true;
+            }
+
+            return false;
         }
     }
 }
