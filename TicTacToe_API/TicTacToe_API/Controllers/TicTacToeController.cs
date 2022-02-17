@@ -14,7 +14,7 @@ namespace TicTacToe_API.Controllers
         private Game _game;
         public TicTacToeController()
         {
-            _game = new Game();
+            _game = new Game();            
         }
 
         public IActionResult Index()
@@ -26,7 +26,7 @@ namespace TicTacToe_API.Controllers
         [Route("startgame")]
         public string StartGame(Player p1, Player p2)
         {
-            _game.StartGame(p1, p2);
+            //_game.StartGame(p1, p2);
             return "Inicio de Juego";
         }
 
@@ -43,8 +43,8 @@ namespace TicTacToe_API.Controllers
 
                 return eX.Message;
             }
-
+            
         }
-
-    }
+    
 }
+    }

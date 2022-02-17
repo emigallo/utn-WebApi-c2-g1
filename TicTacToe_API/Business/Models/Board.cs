@@ -54,7 +54,7 @@ namespace Business.Models
         {
             for (int i = 0; i < 3; i++)
             {
-                if (positions[i] == positions[i + 3] && positions[i + 3] == positions[i + 6]) {
+                if (positions[i] == positions[i + 3] && positions[i + 3] == positions[i + 6] && positions[i] != TypePiece.empty) {
                     return true;
                 }
             }
@@ -65,7 +65,8 @@ namespace Business.Models
         {
             for (int i = 0; i < 3; i++)
             {
-                if (positions[3*i] == positions[3*i + 1] && positions[3*i + 1] == positions[3*i + 2])
+                int j = 3 * i;
+                if (positions[j] == positions[j + 1] && positions[j + 1] == positions[j + 2] && positions[j] != TypePiece.empty)
                 {
                     return true;
                 }
@@ -75,7 +76,7 @@ namespace Business.Models
 
         public bool IsLDiagonal()
         {
-            if (positions[0] == positions[4] && positions[4] == positions[8] || positions[2] == positions[4] && positions[4] == positions[6])
+            if (positions[0] == positions[4] && positions[4] == positions[8] || positions[2] == positions[4] && positions[4] == positions[6] && positions[4] != TypePiece.empty)
             {
                 return true;
             }
