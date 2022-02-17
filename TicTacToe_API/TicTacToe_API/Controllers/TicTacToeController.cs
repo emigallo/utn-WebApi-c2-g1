@@ -14,7 +14,7 @@ namespace TicTacToe_API.Controllers
         private Game _game;
         public TicTacToeController()
         {
-            _game = new Game();            
+            _game = new Game();
         }
 
         public IActionResult Index()
@@ -43,7 +43,8 @@ namespace TicTacToe_API.Controllers
 
                 return eX.Message;
             }
-            
+
         }
-    
+
+    }
 }

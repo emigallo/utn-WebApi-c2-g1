@@ -83,7 +83,7 @@ namespace Business.Models
             //Player_1 = new Player(TypePiece.circle, "pepe");
             //Player_2 = new Player(TypePiece.cross, "jose");
 
-            _currentPlayer = Player_1;
+            _currentPlayer = play1;
         }
 
         public void InitGame()
