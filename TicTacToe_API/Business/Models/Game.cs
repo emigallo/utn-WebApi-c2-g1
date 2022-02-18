@@ -23,28 +23,25 @@ namespace Business.Models
         public int Turn { get; set; } // revisar nombre de la variable
 
         public string Move(int position, Player player) // PlayTurn
-        {
-           
-                _boardGame.ValidatePosition(position); 
-                
-                _boardGame.SetCellBusy(player, position);
-
+        {           
+            _boardGame.ValidatePosition(position);                 
+            _boardGame.SetCellBusy(player, position);
              
-                    if (!EndGane())
-                    {
-                        if (!IsThereAWinner())
-                        {
-                            _currentPlayer = GetNextPlayer();
-                        }
-                        else
-                        {
-                            return _currentPlayer.Name + "Ha ganado el juego";
-                        }
-                    }
-                    else
-                    {
+            if (!EndGane())
+            {
+                if (!IsThereAWinner())
+                {
+                    _currentPlayer = GetNextPlayer();
+                }
+                else
+                {
+                    return _currentPlayer.Name + "Ha ganado el juego";
+                }
+            }
+            else
+            {
                 return "Nadie ha ganado";
-                    }
+            }
 
             return "Mueve" + _currentPlayer.Name;
             
