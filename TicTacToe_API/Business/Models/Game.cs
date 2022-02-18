@@ -11,6 +11,7 @@ namespace Business.Models
 
         private static Board _boardGame;
         private static Player _currentPlayer;
+        private static Player _lastPlayer;
 
         public Game(string player1name, string player2name)
         {
@@ -19,6 +20,7 @@ namespace Business.Models
             Player_2 = new Player(TypePiece.circle, player2name);
             _boardGame = new Board();
             _currentPlayer = Player_1;
+            _lastPlayer = null;
 
         }
 
@@ -27,9 +29,9 @@ namespace Business.Models
 
         public int Turn { get; set; } // revisar nombre de la variable
 
-        public void CheckPlayerMove(Player lastPlayer)
+        public void CheckPlayerMove()
         {
-            if(lastPlayer == _currentPlayer)
+            if(_lastPlayer == _currentPlayer)
             {
                 throw new Exception($"No se puede realizar 2 movimientos seguidos.");
             }
@@ -37,19 +39,15 @@ namespace Business.Models
 
         public string Move(int position, Player player) // PlayTurn
         {
-            CheckPlayerMove(player);
+            CheckPlayerMove();
             _boardGame.ValidatePosition(position);                 
             _boardGame.SetCellBusy(player, position);
              
             if (!EndGane())
             {
-                if (!IsThereAWinner())
+                if (IsThereAWinner())
                 {
-                    // _currentPlayer = 
-                }
-                else
-                {
-                    return _currentPlayer.Name + " Ha ganado el juego";
+                   return _currentPlayer.Name + " Ha ganado el juego";
                 }
             }
             else
@@ -57,7 +55,8 @@ namespace Business.Models
                 return "Nadie ha ganado";
             }
 
-            return "Mueve" + _currentPlayer.Name;            
+            _lastPlayer = player;
+            return "Mueve siguiente jugador";            
         }
 
         public bool AskCellBusy()
