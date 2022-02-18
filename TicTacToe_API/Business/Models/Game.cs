@@ -39,6 +39,7 @@ namespace Business.Models
 
         public string Move(int position, Player player) // PlayTurn
         {
+            _currentPlayer = player;
             CheckPlayerMove();
             _boardGame.ValidatePosition(position);                 
             _boardGame.SetCellBusy(player, position);
