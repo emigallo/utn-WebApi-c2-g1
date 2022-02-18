@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-
+using Business;
 namespace Business.Models
 {
     public class Game
@@ -22,42 +22,28 @@ namespace Business.Models
 
         public int Turn { get; set; } // revisar nombre de la variable
 
-        public void Move(int position, Player player) // PlayTurn
-        {
-            try
+        public string Move(int position, Player player) // PlayTurn
+        {           
+            _boardGame.ValidatePosition(position);                 
+            _boardGame.SetCellBusy(player, position);
+             
+            if (!EndGane())
             {
-                _boardGame.VerifiedPosition(position);
-                
-                bool result = _boardGame.SetCellBusy(player, position);
-
-                if (result)
+                if (!IsThereAWinner())
                 {
-                    if (!EndGane())
-                    {
-                        if (!IsThereAWinner())
-                        {
-                            _currentPlayer = GetNextPlayer();
-                        }
-                        else
-                        {
-                            // MOSTRAR MENSAJE DE QUIEN GANO
-                        }
-                    }
-                    else
-                    {
-                        // MOSTRAR EL MENSAJE DE EMPATE
-                    }
+                    _currentPlayer = GetNextPlayer();
                 }
                 else
                 {
-                    // MAL MOVIMIENTO
-                    throw new Exception("Celda ocupada.");
+                    return _currentPlayer.Name + "Ha ganado el juego";
                 }
             }
-            catch (Exception ex)
+            else
             {
-                throw;
+                return "Nadie ha ganado";
             }
+
+            return "Mueve" + _currentPlayer.Name;
             
         }
 
@@ -68,11 +54,11 @@ namespace Business.Models
 
         public bool IsThereAWinner()
         {
-            // Gana la jugada en Diagonal
-            // Gana la jugada en Vertical
-            // Gana la jugada en Horizontal
-
-            return true;
+            if ( _boardGame.IsLDiagonal() || _boardGame.IsLHorizontal() || _boardGame.IsVertical())
+            {
+                return true;
+            }
+            return false;
         }
 
         public Player GetNextPlayer()
@@ -87,18 +73,20 @@ namespace Business.Models
             }
         }
 
-        public void StartGane()
+        public void StartGame(Player play1, Player play2)
         {
             InitGame();
-            _currentPlayer = Player_1;
+            
+            //Player_1 = new Player(TypePiece.circle, "pepe");
+            //Player_2 = new Player(TypePiece.cross, "jose");
 
-            Player_1 = new Player(TypePiece.circle, "pepe");
-            Player_2 = new Player(TypePiece.cross, "jose");
+            _currentPlayer = play1;
         }
 
         public void InitGame()
         {
             _boardGame = new Board();
+            //_boardGame.FullEmpty();
         }
 
         public bool EndGane()

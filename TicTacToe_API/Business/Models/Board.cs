@@ -10,45 +10,39 @@ namespace Business.Models
     {
         public Board()
         {
-            FullEmpty();
+            positions = new TypePiece[9];
+            
         }
 
-        public TypePiece stateCell { get; set; }
-        private TypePiece[] Positions { get; init; } 
+        public TypePiece StateCell { get; set; }
+        private TypePiece[] positions { get; set; } 
 
-        public void FullEmpty()
+      
+        public void ValidatePosition(int position) 
         {
-            for (int i = 0; i < 9; i++)
-            {
-                Positions[i] = TypePiece.empty;               
-            }
-        }
-        
-        public void VerifiedPosition(int position) // validar la position no este avcia
-        {
-            if (position >= 0 && position <= 8)
+            if (position < 0 || position > 8)  
             {
                 throw new Exception("Posicion invalida");
             }
 
-        }
-
-        public bool SetCellBusy(Player player, int numberCell) // 
-        {
-            if (Positions[numberCell] != TypePiece.empty)
+            if (positions[position] != TypePiece.empty)
             {
-                return false;
+                throw new Exception("Celda ocupada");
             }
 
-            Positions[numberCell] = player.TypePlayer;
-            return true;
+        }
+
+        public void SetCellBusy(Player player, int numberCell) 
+        {
+            positions[numberCell] = player.TypePlayer;
+            
         }
 
         public bool FullBoard()
         {
             for (int i = 0; i < 9; i++)
             {
-                if (Positions[i] == TypePiece.empty)
+                if (positions[i] == TypePiece.empty)
                 {
                     return false;
                 }
@@ -58,17 +52,36 @@ namespace Business.Models
 
         public bool IsVertical()
         {
-            return true;
+            for (int i = 0; i < 3; i++)
+            {
+                if (positions[i] == positions[i + 3] && positions[i + 3] == positions[i + 6] && positions[i] != TypePiece.empty) {
+                    return true;
+                }
+            }
+            return false;
         }
 
         public bool IsLHorizontal()
         {
-            return true;
+            for (int i = 0; i < 3; i++)
+            {
+                int j = 3 * i;
+                if (positions[j] == positions[j + 1] && positions[j + 1] == positions[j + 2] && positions[j] != TypePiece.empty)
+                {
+                    return true;
+                }
+            }
+            return false;
         }
 
         public bool IsLDiagonal()
         {
-            return true;
+            if (positions[0] == positions[4] && positions[4] == positions[8] || positions[2] == positions[4] && positions[4] == positions[6] && positions[4] != TypePiece.empty)
+            {
+                return true;
+            }
+
+            return false;
         }
     }
 }

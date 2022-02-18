@@ -8,8 +8,8 @@ namespace Business.Models
 {
     public enum TypePiece
     {
-        cross,
+        empty,
         circle,
-        empty
+        cross
     }
 }
