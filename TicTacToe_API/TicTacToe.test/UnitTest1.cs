@@ -13,20 +13,19 @@ namespace TicTacToe.test
         [Test]
         public void StartGame()
         {
-            
-            Game g = new Game();
-            Player p1 = new Player(Business.Models.TypePiece.cross, "Juan");
-            Player p2 = new Player(TypePiece.circle, "Pepe");
-            
-            g.StartGame(p1, p2);
-          //  Assert.Pass("Partida iniciado con éxito");
-
+            string resultado;
+            Game g = new Game("Juan", "Pepe");
+         
             // Horizontal
-            g.Move(4, p1);
-            g.Move(1, p2);
-            g.Move(2, p1);
-            g.Move(0, p2);
-            g.Move(6, p1);
+            resultado = g.Move(4, g.Player_1);
+            resultado = g.Move(1, g.Player_1);
+            resultado = g.Move(2, g.Player_2);
+            resultado = g.Move(0, g.Player_1);
+            resultado = g.Move(6, g.Player_2);
+            //Assert.Pass("Partida iniciado con éxito");
+            Assert.IsTrue(resultado == "Pepe Ha ganado el juego");
+            //validar jugador 1
+            // ir por las otras alternativas
         }
     }
 }

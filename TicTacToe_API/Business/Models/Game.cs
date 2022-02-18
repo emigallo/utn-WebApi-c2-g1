@@ -12,42 +12,52 @@ namespace Business.Models
         private static Board _boardGame;
         private static Player _currentPlayer;
 
-        public Game()
+        public Game(string player1name, string player2name)
         {
+            
+            Player_1 = new Player(TypePiece.cross, player1name);
+            Player_2 = new Player(TypePiece.circle, player2name);
+            _boardGame = new Board();
+            _currentPlayer = Player_1;
 
         }
 
-        public Player Player_1 { get; set; }
-        public Player Player_2 { get; set; }
+        public Player Player_1 { get; init; }
+        public Player Player_2 { get; init; }
 
         public int Turn { get; set; } // revisar nombre de la variable
 
+        public void CheckPlayerMove(Player lastPlayer)
+        {
+            if(lastPlayer == _currentPlayer)
+            {
+                throw new Exception($"No se puede realizar 2 movimientos seguidos.");
+            }
+        }
+
         public string Move(int position, Player player) // PlayTurn
         {
-           
-                _boardGame.ValidatePosition(position); 
-                
-                _boardGame.SetCellBusy(player, position);
-
+            CheckPlayerMove(player);
+            _boardGame.ValidatePosition(position);                 
+            _boardGame.SetCellBusy(player, position);
              
-                    if (!EndGane())
-                    {
-                        if (!IsThereAWinner())
-                        {
-                            _currentPlayer = GetNextPlayer();
-                        }
-                        else
-                        {
-                            return _currentPlayer.Name + "Ha ganado el juego";
-                        }
-                    }
-                    else
-                    {
+            if (!EndGane())
+            {
+                if (!IsThereAWinner())
+                {
+                    // _currentPlayer = 
+                }
+                else
+                {
+                    return _currentPlayer.Name + " Ha ganado el juego";
+                }
+            }
+            else
+            {
                 return "Nadie ha ganado";
-                    }
+            }
 
-            return "Mueve" + _currentPlayer.Name;
-            
+            return "Mueve" + _currentPlayer.Name;            
         }
 
         public bool AskCellBusy()
@@ -74,22 +84,6 @@ namespace Business.Models
             {
                 return Player_1;
             }
-        }
-
-        public void StartGame(Player play1, Player play2)
-        {
-            InitGame();
-            
-            //Player_1 = new Player(TypePiece.circle, "pepe");
-            //Player_2 = new Player(TypePiece.cross, "jose");
-
-            _currentPlayer = play1;
-        }
-
-        public void InitGame()
-        {
-            _boardGame = new Board();
-            //_boardGame.FullEmpty();
         }
 
         public bool EndGane()
