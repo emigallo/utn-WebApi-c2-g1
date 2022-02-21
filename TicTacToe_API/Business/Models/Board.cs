@@ -34,8 +34,7 @@ namespace Business.Models
 
         public void SetCellBusy(Player player, int numberCell) 
         {
-            positions[numberCell] = player.TypePlayer;
-            
+            positions[numberCell] = player.TypePiece;            
         }
 
         public bool FullBoard()

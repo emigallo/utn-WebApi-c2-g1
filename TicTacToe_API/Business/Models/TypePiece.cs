@@ -12,4 +12,23 @@ namespace Business.Models
         circle,
         cross
     }
+
+    public class TypePieceExtension
+    {
+        public static string TypePiece2String(TypePiece symbol)
+        {
+            switch (symbol)
+            {
+                case TypePiece.empty:
+                    return " ";
+                case TypePiece.cross:
+                    return "X";
+                case TypePiece.circle:
+                    return "O";
+                default:
+                    throw new NotSupportedException();
+            }
+        }
+    }
 }
+
