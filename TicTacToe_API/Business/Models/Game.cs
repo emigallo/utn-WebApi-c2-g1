@@ -8,7 +8,6 @@ namespace Business.Models
 {
     public class Game
     {
-
         private static Board _boardGame;
         private static Player _currentPlayer;
         private static Player _lastPlayer;
@@ -60,11 +59,6 @@ namespace Business.Models
             return "Mueve siguiente jugador";            
         }
 
-        public bool AskCellBusy()
-        {
-            return true;
-        }
-
         public bool IsThereAWinner()
         {
             if ( _boardGame.IsLDiagonal() || _boardGame.IsLHorizontal() || _boardGame.IsVertical())
@@ -89,6 +83,20 @@ namespace Business.Models
         public bool EndGane()
         {
             return _boardGame.FullBoard();
+        }
+
+
+
+
+        private void SetupPlayers(Player player1, Player player2)
+        {
+            if (player1.TypePiece == TypePiece.empty ||
+                player2.TypePiece == TypePiece.empty ||
+                player1.TypePiece == player2.TypePiece)
+            {
+                player1.TypePiece = TypePiece.circle;
+                player2.TypePiece = TypePiece.cross;
+            }
         }
     }
 }

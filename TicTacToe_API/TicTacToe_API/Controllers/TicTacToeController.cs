@@ -47,4 +47,3 @@ namespace TicTacToe_API.Controllers
         }
     
 }
-    }

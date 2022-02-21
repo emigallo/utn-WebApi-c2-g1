@@ -22,7 +22,7 @@ namespace TicTacToe.test
             resultado = g.Move(2, g.Player_1);
             resultado = g.Move(0, g.Player_2);
             resultado = g.Move(6, g.Player_1);
-            //Assert.Pass("Partida iniciado con éxito");
+            //Assert.Pass("Partida iniciado con ï¿½xito");
             Assert.IsFalse(resultado == "Pepe Ha ganado el juego");
             Assert.IsTrue(resultado == "Juan Ha ganado el juego");
             Assert.IsFalse(resultado == "Nadie ha ganado");
